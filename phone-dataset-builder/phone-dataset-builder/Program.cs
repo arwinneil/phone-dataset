@@ -17,15 +17,37 @@ namespace phone_dataset_builder
 
         private static void getPhoneList()
         {
-            string htmlCode = null;
-
             WebClient client = new WebClient();
 
-            StreamWriter file = new StreamWriter("RawListPage.html");
-            file.WriteLine(client.DownloadString("http://www.gsmarena.com/makers.php3"));
-            file.Close();
+            StreamWriter rawhtml = new StreamWriter("RawListPage.html");
+            rawhtml.WriteLine(client.DownloadString("http://www.gsmarena.com/makers.php3"));
+            rawhtml.Close();
 
             Console.WriteLine("Getting page done..");
+            Console.ReadKey();
+
+            StreamReader sr = new StreamReader("RawListPage.html");
+
+            string line;
+            bool table = false;
+
+            while ((line = sr.ReadLine()) != null)
+
+            {
+                if (line.IndexOf("</table>") == 0)
+                    break;
+
+                if (table == true && line != "")
+                {
+                    line = line.Substring((line.IndexOf(".php>") + 5), ((line.IndexOf("<br>")) - (line.IndexOf(".php>") + 5)));
+
+                    Console.Write(line + ",");
+                }
+
+                if (line.IndexOf("<table>") == 0)
+                    table = true;
+            }
+
             Console.ReadKey();
         }
     }
