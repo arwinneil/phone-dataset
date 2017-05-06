@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace phone_dataset_builder
 {
@@ -18,12 +19,13 @@ namespace phone_dataset_builder
         {
             string htmlCode = null;
 
-            using (WebClient client = new WebClient())
-            {
-                htmlCode = client.DownloadString("http://www.gsmarena.com/makers.php3");
-            }
+            WebClient client = new WebClient();
 
-            Console.WriteLine(htmlCode);
+            StreamWriter file = new StreamWriter("RawListPage.html");
+            file.WriteLine(client.DownloadString("http://www.gsmarena.com/makers.php3"));
+            file.Close();
+
+            Console.WriteLine("Getting page done..");
             Console.ReadKey();
         }
     }
