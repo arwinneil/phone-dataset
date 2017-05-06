@@ -1,15 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace phone_dataset_builder
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
+            getPhoneList();
+        }
+
+        private static void getPhoneList()
+        {
+            string htmlCode = null;
+
+            using (WebClient client = new WebClient())
+            {
+                htmlCode = client.DownloadString("http://somesite.com/default.html");
+            }
+
+            Console.WriteLine(htmlCode);
+            Console.ReadKey();
         }
     }
 }
