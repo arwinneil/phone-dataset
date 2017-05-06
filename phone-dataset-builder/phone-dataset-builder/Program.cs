@@ -20,7 +20,7 @@ namespace phone_dataset_builder
 
             using (WebClient client = new WebClient())
             {
-                htmlCode = client.DownloadString("http://somesite.com/default.html");
+                htmlCode = client.DownloadString("http://www.gsmarena.com/makers.php3");
             }
 
             Console.WriteLine(htmlCode);
