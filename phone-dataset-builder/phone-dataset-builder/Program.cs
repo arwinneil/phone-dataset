@@ -47,6 +47,8 @@ namespace phone_dataset_builder
 
                     phone_brand Phone = new phone_brand(temp_brand, temp_model_no, temp_url);
 
+                    PhoneBrands.Add(Phone);
+
                     Console.ForegroundColor = ConsoleColor.Cyan;
                     Console.Write(Phone.brand);
                     Console.ResetColor();
