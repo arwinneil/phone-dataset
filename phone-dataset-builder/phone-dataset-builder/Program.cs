@@ -75,7 +75,7 @@ namespace phone_dataset_builder
                 if (line.IndexOf("<table>") == 0)
                     table = true;
             }
-
+            sr.Close();
             return PhoneBrands;
         }
     }
