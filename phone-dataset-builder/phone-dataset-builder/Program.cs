@@ -12,11 +12,13 @@ namespace phone_dataset_builder
     {
         private static void Main(string[] args)
         {
-            getPhoneList();
+            List<phone_brand> PhoneBrands = getPhoneList();
         }
 
-        private static void getPhoneList()
+        private static List<phone_brand> getPhoneList()
         {
+            List<phone_brand> PhoneBrands = new List<phone_brand>();
+
             WebClient client = new WebClient();
 
             StreamWriter rawhtml = new StreamWriter("RawListPage.html");
@@ -30,7 +32,6 @@ namespace phone_dataset_builder
 
             string line;
             bool table = false;
-            int formatter = 1;
             while ((line = sr.ReadLine()) != null)
 
             {
@@ -60,6 +61,8 @@ namespace phone_dataset_builder
             }
 
             Console.ReadKey();
+
+            return PhoneBrands;
         }
     }
 }
