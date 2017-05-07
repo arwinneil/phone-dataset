@@ -12,7 +12,26 @@ namespace phone_dataset_builder
     {
         private static void Main(string[] args)
         {
+            Console.WriteLine("Retrieving phone brands from GSM arena... \n");
             List<phone_brand> PhoneBrands = getPhoneList();
+
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("\n\nRetrived " + PhoneBrands.Count + " phone brands\n");
+            Console.ResetColor();
+            Console.WriteLine("Retrieving phone models by brand... \n");
+
+            foreach (phone_brand Phone in PhoneBrands)
+            {
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write(Phone.brand);
+                Console.ResetColor();
+                Console.Write(" : " + Phone.model_no + " devices ");
+                Console.ForegroundColor = ConsoleColor.DarkGray;
+                Console.Write(" url:" + Phone.url + "\n");
+                Console.ResetColor();
+
+                Console.ReadKey();
+            }
         }
 
         private static List<phone_brand> getPhoneList()
@@ -24,9 +43,6 @@ namespace phone_dataset_builder
             StreamWriter rawhtml = new StreamWriter("RawListPage.html");
             rawhtml.WriteLine(client.DownloadString("http://www.gsmarena.com/makers.php3"));
             rawhtml.Close();
-
-            Console.WriteLine("Getting page done..");
-            Console.ReadKey();
 
             StreamReader sr = new StreamReader("RawListPage.html");
 
@@ -52,17 +68,13 @@ namespace phone_dataset_builder
                     Console.ForegroundColor = ConsoleColor.Cyan;
                     Console.Write(Phone.brand);
                     Console.ResetColor();
-                    Console.Write(":" + Phone.model_no + " devices");
-                    Console.ForegroundColor = ConsoleColor.DarkGray;
-                    Console.Write(" url:" + Phone.url + "\n");
-                    Console.ResetColor();
+                    Console.Write(";");
+                    ;
                 }
 
                 if (line.IndexOf("<table>") == 0)
                     table = true;
             }
-
-            Console.ReadKey();
 
             return PhoneBrands;
         }
