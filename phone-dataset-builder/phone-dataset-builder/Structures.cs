@@ -13,18 +13,18 @@
             this.model_no = model_no;
             this.url = url;
         }
+    }
 
-        public struct phone_model
+    public struct phone_model
+    {
+        public string model;
+        public string url;
+
+        // Constructor:
+        public phone_model(string model, string url)
         {
-            public string model;
-            public string url;
-
-            // Constructor:
-            public phone_model(string brand, string model, string url)
-            {
-                this.model = brand;
-                this.url = url;
-            }
+            this.model = model;
+            this.url = url;
         }
     }
 }
