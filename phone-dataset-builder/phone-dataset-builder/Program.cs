@@ -33,6 +33,8 @@ namespace phone_dataset_builder
 
                 Console.WriteLine("Fetching models...");
                 getModelList(Phone.url, false);
+
+                Console.ReadKey();
             }
         }
 
@@ -100,6 +102,7 @@ namespace phone_dataset_builder
             string line = null;
             bool model_class_found = false;
             bool page_class_found = false;
+            string raw_models = null;
 
             while ((line = sr.ReadLine()) != null)
 
@@ -109,7 +112,8 @@ namespace phone_dataset_builder
 
                 if ((line.IndexOf("<li>") == 0) && (model_class_found == true))
                 {
-                    string raw_models = line;
+                    raw_models = line;
+                    model_class_found = false;
                 }
 
                 if (!isRecursion) //index search pages only if not recursion
@@ -137,7 +141,7 @@ namespace phone_dataset_builder
             if (page_class_found)
             {
                 Console.ForegroundColor = ConsoleColor.DarkGray;
-                Console.WriteLine("Recursively fetching phone models from the following indexed search page(s):");
+                Console.WriteLine("Recursively fetching phone models from the following indexed result page(s):");
 
                 foreach (string page_url in navigation_pages)
                 {
@@ -146,9 +150,43 @@ namespace phone_dataset_builder
                 Console.ResetColor();
             }
 
-            Console.WriteLine();
+            do
+
+            {
+                if (raw_models.Contains("<span>") == true)
+                {
+                    string temp_url = raw_models.Substring((raw_models.IndexOf("href=\"") + 6), ((raw_models.IndexOf(".php") + 4) - (raw_models.IndexOf("href=\"") + 6)));
+
+                    string temp_model = raw_models.Substring((raw_models.IndexOf("<span>") + 6), ((raw_models.IndexOf("</span>") - (raw_models.IndexOf("<span>") + 6))));
+
+                    phone_model model = new phone_model(temp_model, temp_url);
+                    PhoneModels.Add(model);
+                }
+
+                raw_models = raw_models.Remove(0, (raw_models.IndexOf("</span>") + 4));
+            } while (raw_models.Contains("<span>") == true);
+
             sr.Close();
             File.Delete("RawModelPage.html");
+
+            if (!isRecursion)
+            {
+                foreach (string result_url in navigation_pages)
+                {
+                    PhoneModels.AddRange(getModelList(result_url, true)); //Recursicely get phone models from other result pages and add to list
+                }
+            }
+
+            foreach (phone_model model in PhoneModels)
+            {
+                Console.WriteLine(model.model);
+                Console.WriteLine(model.url);
+
+                Console.WriteLine();
+            }
+
+            Console.WriteLine();
+
             return PhoneModels;
         }
     }
