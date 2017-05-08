@@ -123,9 +123,9 @@ namespace phone_dataset_builder
                         {
                             if (line.Contains("href") == true)
                             {
-                                string temp_page = "http://http://www.gsmarena.com/" + line.Substring((line.IndexOf("href =\"") + 6), ((line.IndexOf(".php") + 4) - (line.IndexOf("href=\"") + 6)));
+                                string temp_page = line.Substring((line.IndexOf("href=\"") + 6), ((line.IndexOf(".php") + 4) - (line.IndexOf("href=\"") + 6)));
 
-                                navigation_pages.Add(temp_page);
+                                navigation_pages.Add("http://www.gsmarena.com/" + temp_page);
                             }
 
                             line = line.Remove(0, (line.IndexOf(".php") + 4));
@@ -134,9 +134,16 @@ namespace phone_dataset_builder
                 }
             }
 
-            foreach (string page_url in navigation_pages)
+            if (page_class_found)
             {
-                Console.WriteLine(page_url);
+                Console.ForegroundColor = ConsoleColor.DarkGray;
+                Console.WriteLine("Recursively fetching phone models from the following indexed search page(s):");
+
+                foreach (string page_url in navigation_pages)
+                {
+                    Console.WriteLine(page_url);
+                }
+                Console.ResetColor();
             }
 
             Console.WriteLine();
