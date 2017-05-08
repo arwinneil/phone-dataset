@@ -26,15 +26,13 @@ namespace phone_dataset_builder
                 Console.ForegroundColor = ConsoleColor.Cyan;
                 Console.Write("\n" + Phone.brand);
                 Console.ResetColor();
-                Console.Write(" : " + Phone.model_no + " devices ");
+                Console.Write(" : " + Phone.model_no + " reported devices ");
                 Console.ForegroundColor = ConsoleColor.DarkGray;
                 Console.Write(" url:" + Phone.url + "\n");
                 Console.ResetColor();
 
                 Console.WriteLine("Fetching models...");
-                getModelList(Phone.url, false);
-
-                Console.ReadKey();
+                getModelList(Phone.url, false, Phone.model_no);
             }
         }
 
@@ -84,7 +82,7 @@ namespace phone_dataset_builder
             return PhoneBrands;
         }
 
-        private static List<phone_model> getModelList(string url, bool isRecursion)
+        private static List<phone_model> getModelList(string url, bool isRecursion, string model_no)
         {
             List<phone_model> PhoneModels = new List<phone_model>();
 
@@ -140,13 +138,9 @@ namespace phone_dataset_builder
 
             if (page_class_found)
             {
-                Console.ForegroundColor = ConsoleColor.DarkGray;
-                Console.WriteLine("Recursively fetching phone models from the following indexed result page(s):");
-
-                foreach (string page_url in navigation_pages)
-                {
-                    Console.WriteLine(page_url);
-                }
+                Console.Write("Recursively fetching phone models from ");
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine(navigation_pages.Count + " indexed result page(s):");
                 Console.ResetColor();
             }
 
@@ -170,22 +164,21 @@ namespace phone_dataset_builder
             File.Delete("RawModelPage.html");
 
             if (!isRecursion)
+
             {
+                Console.Write("\rPopulating model list :" + PhoneModels.Count + "/" + model_no + "...");
+
                 foreach (string result_url in navigation_pages)
                 {
-                    PhoneModels.AddRange(getModelList(result_url, true)); //Recursicely get phone models from other result pages and add to list
+                    PhoneModels.AddRange(getModelList(result_url, true, model_no)); //Recursicely get phone models from other result pages and add to list
+
+                    Console.Write("\rPopulating model list :" + PhoneModels.Count + "/" + model_no + "...");
                 }
+
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("Done!");
+                Console.ResetColor();
             }
-
-            foreach (phone_model model in PhoneModels)
-            {
-                Console.WriteLine(model.model);
-                Console.WriteLine(model.url);
-
-                Console.WriteLine();
-            }
-
-            Console.WriteLine();
 
             return PhoneModels;
         }
