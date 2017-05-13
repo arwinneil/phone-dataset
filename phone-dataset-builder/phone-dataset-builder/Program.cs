@@ -140,7 +140,6 @@ namespace phone_dataset_builder
             {
                 Console.Write("Recursively fetching phone models from ");
                 Console.ForegroundColor = ConsoleColor.White;
-                Console.WriteLine(navigation_pages.Count + " indexed result page(s):");
                 Console.ResetColor();
             }
 
