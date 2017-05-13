@@ -31,8 +31,14 @@ namespace phone_dataset_builder
                 Console.Write(" url:" + Phone.url + "\n");
                 Console.ResetColor();
 
-                Console.WriteLine("Fetching models...");
-                getModelList(Phone.url, false, Phone.model_no);
+                Console.WriteLine("Fetching phone models...");
+                List<phone_model> Model = getModelList(Phone.url, false, Phone.model_no);
+
+                Console.WriteLine("Reading Specs...");
+                foreach (phone_model model in Model)
+                {
+                    getSpecs(model.url, model.model);
+                }
             }
         }
 
@@ -153,6 +159,8 @@ namespace phone_dataset_builder
 
                     string temp_model = raw_models.Substring((raw_models.IndexOf("<span>") + 6), ((raw_models.IndexOf("</span>") - (raw_models.IndexOf("<span>") + 6))));
 
+                    temp_url = "http://www.gsmarena.com/" + temp_url;
+
                     phone_model model = new phone_model(temp_model, temp_url);
                     PhoneModels.Add(model);
                 }
@@ -181,6 +189,51 @@ namespace phone_dataset_builder
             }
 
             return PhoneModels;
+        }
+
+        private static void getSpecs(string url, string model)
+        {
+            WebClient client = new WebClient();
+
+            StreamWriter rawhtml = new StreamWriter("RawSpecs.html");
+            rawhtml.WriteLine(client.DownloadString(url));
+
+            rawhtml.Close();
+
+            StreamReader sr = new StreamReader("RawSpecs.html");
+
+            string line = null;
+            bool specs_list_found = false;
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write(model + ":");
+            Console.ResetColor();
+
+            while ((line = sr.ReadLine()) != null)
+            {
+                if (line.IndexOf("<div id=\"specs-list\">") == 0)
+                    specs_list_found = true;
+
+                if (line.IndexOf("<p class=\"note\">") == 0)
+                    break;
+
+                if (specs_list_found)
+                {
+                    if ((line.IndexOf("ttl") > -1) && (line.IndexOf("nbsp") == -1))
+                    {
+                        line = line.Remove(0, line.IndexOf(">") + 1);
+
+                        line = line.Remove(0, line.IndexOf(">") + 1);
+
+                        line = line.Remove(line.IndexOf("<"), ((line.Length) - (line.IndexOf("<"))));
+
+                        Console.Write(line + ",");
+                    }
+                }
+            }
+            Console.WriteLine();
+
+            sr.Close();
+            File.Delete("RawSpecs.html");
         }
     }
 }
