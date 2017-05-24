@@ -9,7 +9,7 @@ namespace phone_dataset_builder
     {
         private static void Main(string[] args)
         {
-            File.Create("phone_dataset.csv");
+            createDataset();
 
             Console.WriteLine("Retrieving phone brands from GSM arena... \n");
             List<phone_brand> PhoneBrands = getBrandList();
@@ -38,6 +38,7 @@ namespace phone_dataset_builder
                 {
                     specs Specs = getSpecs(model.url, model.model);
                     Console.Write("\rWriting to dataset :" + ++writecount + "/" + Model.Count + "...");
+                    writeSpecs(Specs);
                 }
             }
         }
@@ -628,8 +629,8 @@ namespace phone_dataset_builder
                             line = line.Remove(0, line.IndexOf(">") + 1);
                             line = line.Remove(0, line.IndexOf(">") + 1);
 
-                            line = line.Remove(line.IndexOf("<"), ((line.Length) - (line.IndexOf("<"))));
-
+                            line = line.Remove(line.IndexOf("/"), ((line.Length) - (line.IndexOf("/"))));
+                            Console.WriteLine(line);
                             price_group = line;
                         }
 
@@ -691,9 +692,50 @@ namespace phone_dataset_builder
             return Specs;
         }
 
+        private static void createDataset()
+        {
+            bool tryagain = true;
+            while (tryagain)
+            {
+                try
+                {
+                    StreamWriter dataset = new StreamWriter("phone_dataset.csv");
+                    dataset.WriteLine("network_technology,2G_bands,3G_bands,4G_bands,network_speed,GPRS,EDGE,announced,status,dimentions,weight,SIM,display_type,display_resolution,display_size,OS,CPU,Chipset,GPU,memory_card,internal_memory,RAM,primary_camera,secondary_camera,loud_speaker,audio_jack,WLAN,bluetooth,GPS,NFC,radio,USB,sensors,battery,colors,price_group,img_url");
+
+                    dataset.Close();
+                    tryagain = false;
+                }
+                catch
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("The file \"phone_dataset.csv\" cannot access because it is being used by another process. Please close any program that might be using it then press ENTER...");
+                    Console.ResetColor();
+                    Console.ReadKey();
+                };
+            }
+        }
+
         private static void writeSpecs(specs Specs)
         {
-            StreamWriter dataset = new StreamWriter("phone_dataset.csv");
+            bool tryagain = true;
+            while (tryagain)
+            {
+                try
+                {
+                    StreamWriter test = new StreamWriter("phone_dataset.csv", true);
+
+                    test.Close();
+                    tryagain = false;
+                }
+                catch
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("The file \"phone_dataset.csv\" cannot access because it is being used by another process. Please close any program that might be using it then press ENTER...");
+                    Console.ResetColor();
+                    Console.ReadKey();
+                };
+            }
+            StreamWriter dataset = new StreamWriter("phone_dataset.csv", true);
 
             Specs.network_technology = Specs.network_technology.Replace(',', '|');
             Specs.twoG_bands = Specs.twoG_bands.Replace(',', '|');
@@ -719,11 +761,11 @@ namespace phone_dataset_builder
             Specs.RAM = Specs.RAM.Replace(',', '|');
             Specs.primary_camera = Specs.primary_camera.Replace(',', '|');
             Specs.secondary_camera = Specs.secondary_camera.Replace(',', '|');
-            Specs.loud_speaker = Specs.loud_speaker.Replace(',', '|');
+            Specs.loud_speaker = Specs.loud_speaker.Replace(",", string.Empty);
             Specs.audio_jack = Specs.audio_jack.Replace(',', '|');
             Specs.WLAN = Specs.WLAN.Replace(',', '|');
             Specs.bluetooth = Specs.bluetooth.Replace(',', '|');
-            Specs.GPS = Specs.GPS.Replace(',', '|');
+            Specs.GPS = Specs.GPS.Replace(",", string.Empty);
             Specs.NFC = Specs.NFC.Replace(',', '|');
             Specs.radio = Specs.radio.Replace(',', '|');
             Specs.USB = Specs.USB.Replace(',', '|');
@@ -732,6 +774,10 @@ namespace phone_dataset_builder
             Specs.colors = Specs.colors.Replace(',', '|');
             Specs.price_group = Specs.price_group.Replace(',', '|');
             Specs.img_url = Specs.img_url.Replace(',', '|');
+
+            dataset.WriteLine(Specs.network_technology + "," + Specs.twoG_bands + "," + Specs.threeG_bands + "," + Specs.fourG_bands + "," + Specs.network_speed + "," + Specs.GPRS + "," + Specs.EDGE + "," + Specs.announced + "," + Specs.status + "," + Specs.dimentions + "," + Specs.weight + "," + Specs.SIM + "," + Specs.display_type + "," + Specs.display_resolution + "," + Specs.display_size + "," + Specs.OS + "," + Specs.CPU + "," + Specs.Chipset + "," + Specs.GPU + "," + Specs.memory_card + "," + Specs.internal_memory + "," + Specs.RAM + "," + Specs.primary_camera + "," + Specs.secondary_camera + "," + Specs.loud_speaker + "," + Specs.audio_jack + "," + Specs.WLAN + "," + Specs.bluetooth + "," + Specs.GPS + "," + Specs.NFC + "," + Specs.radio + "," + Specs.USB + "," + Specs.sensors + "," + Specs.battery + "," + Specs.colors + "," + Specs.price_group + "," + Specs.img_url);
+
+            dataset.Close();
         }
     }
 }
