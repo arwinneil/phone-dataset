@@ -259,7 +259,7 @@ namespace phone_dataset_builder
 
                 if (specs_list_found)
                 {
-                    if ((line.IndexOf("ttl") > -1) && (line.IndexOf("nbsp") == -1))
+                    if ((line.IndexOf("ttl") > -1) && (line.IndexOf("nbsp") == -1) && (line.IndexOf("lab") == -1))
                     {
                         if (line.IndexOf("Technology") > -1)
                         {
@@ -412,6 +412,21 @@ namespace phone_dataset_builder
                             continue;
                         }
 
+                        if (line.IndexOf("Weight") > -1)
+                        {
+                            line = sr.ReadLine();
+
+                            line = line.Remove(0, line.IndexOf(">") + 1);
+
+                            line = line.Remove(line.IndexOf("<"), ((line.Length) - (line.IndexOf("<"))));
+
+                            display_resolution = line;
+
+                            Console.WriteLine(line);
+
+                            continue;
+                        }
+
                         if (line.IndexOf("SIM") > -1)
                         {
                             line = sr.ReadLine();
@@ -455,6 +470,279 @@ namespace phone_dataset_builder
                             Console.WriteLine(line);
 
                             continue;
+                        }
+
+                        if (line.IndexOf("Resolution") > -1)
+                        {
+                            line = sr.ReadLine();
+
+                            line = line.Remove(0, line.IndexOf(">") + 1);
+
+                            line = line.Remove(line.IndexOf("<"), ((line.Length) - (line.IndexOf("<"))));
+
+                            display_resolution = line;
+
+                            Console.WriteLine(line);
+
+                            continue;
+                        }
+
+                        if (line.IndexOf("OS") > -1)
+                        {
+                            line = sr.ReadLine();
+
+                            line = line.Remove(0, line.IndexOf(">") + 1);
+
+                            line = line.Remove(line.IndexOf("<"), ((line.Length) - (line.IndexOf("<"))));
+
+                            OS = line;
+
+                            Console.WriteLine(line);
+
+                            continue;
+                        }
+
+                        if (line.IndexOf("Chipset") > -1)
+                        {
+                            line = sr.ReadLine();
+
+                            line = line.Remove(0, line.IndexOf(">") + 1);
+
+                            line = line.Remove(line.IndexOf("<"), ((line.Length) - (line.IndexOf("<"))));
+
+                            Chipset = line;
+
+                            Console.WriteLine(line);
+
+                            continue;
+                        }
+
+                        if (line.IndexOf("CPU") > -1)
+                        {
+                            line = sr.ReadLine();
+
+                            line = line.Remove(0, line.IndexOf(">") + 1);
+
+                            line = line.Remove(line.IndexOf("<"), ((line.Length) - (line.IndexOf("<"))));
+
+                            CPU = line;
+
+                            Console.WriteLine(line);
+
+                            continue;
+                        }
+
+                        if (line.IndexOf("GPU") > -1)
+                        {
+                            line = sr.ReadLine();
+
+                            line = line.Remove(0, line.IndexOf(">") + 1);
+
+                            line = line.Remove(line.IndexOf("<"), ((line.Length) - (line.IndexOf("<"))));
+
+                            GPU = line;
+
+                            Console.WriteLine(line);
+                            continue;
+                        }
+
+                        if (line.IndexOf("Card slot") > -1)
+                        {
+                            do
+                            {
+                                line = sr.ReadLine();
+                            } while (line.IndexOf("nfo") == -1);
+
+                            line = line.Remove(0, line.IndexOf(">") + 1);
+
+                            line = line.Remove(line.IndexOf("<"), ((line.Length) - (line.IndexOf("<"))));
+
+                            memory_card = line;
+                            Console.WriteLine(line);
+
+                            continue;
+                        }
+
+                        if (line.IndexOf("Internal") > -1)
+                        {
+                            line = sr.ReadLine();
+
+                            line = line.Remove(0, line.IndexOf(">") + 1);
+
+                            line = line.Remove(line.IndexOf("<"), ((line.Length) - (line.IndexOf("<"))));
+
+                            RAM = line;
+
+                            Console.WriteLine(line);
+                            continue;
+                        }
+
+                        if (line.IndexOf("Primary") > -1)
+                        {
+                            line = sr.ReadLine();
+
+                            line = line.Remove(0, line.IndexOf(">") + 1);
+
+                            line = line.Remove(line.IndexOf("<"), ((line.Length) - (line.IndexOf("<"))));
+
+                            primary_camera = line;
+                            Console.WriteLine(line);
+                        }
+
+                        if (line.IndexOf("Secondary") > -1)
+                        {
+                            line = sr.ReadLine();
+
+                            line = line.Remove(0, line.IndexOf(">") + 1);
+
+                            line = line.Remove(line.IndexOf("<"), ((line.Length) - (line.IndexOf("<"))));
+
+                            secondary_camera = line;
+                            Console.WriteLine(line);
+                        }
+                        if (line.IndexOf("Loudspeaker") > -1)
+                        {
+                            line = sr.ReadLine();
+
+                            line = line.Remove(0, line.IndexOf(">") + 1);
+
+                            line = line.Remove(line.IndexOf("<"), ((line.Length) - (line.IndexOf("<"))));
+
+                            loud_speaker = line;
+                            Console.WriteLine(line);
+                        }
+
+                        if (line.IndexOf("3.5mm jack") > -1)
+                        {
+                            line = sr.ReadLine();
+
+                            line = line.Remove(0, line.IndexOf(">") + 1);
+
+                            line = line.Remove(line.IndexOf("<"), ((line.Length) - (line.IndexOf("<"))));
+
+                            audio_jack = line;
+                            Console.WriteLine(line);
+                        }
+
+                        if (line.IndexOf("Loudspeaker") > -1)
+                        {
+                            line = sr.ReadLine();
+
+                            line = line.Remove(0, line.IndexOf(">") + 1);
+
+                            line = line.Remove(line.IndexOf("<"), ((line.Length) - (line.IndexOf("<"))));
+
+                            loud_speaker = line;
+                            Console.WriteLine(line);
+                        }
+
+                        if (line.IndexOf("WLAN") > -1)
+                        {
+                            line = sr.ReadLine();
+
+                            line = line.Remove(0, line.IndexOf(">") + 1);
+
+                            line = line.Remove(line.IndexOf("<"), ((line.Length) - (line.IndexOf("<"))));
+
+                            WLAN = line;
+                            Console.WriteLine(line);
+                        }
+
+                        if (line.IndexOf("Bluetooth") > -1)
+                        {
+                            line = sr.ReadLine();
+
+                            line = line.Remove(0, line.IndexOf(">") + 1);
+
+                            line = line.Remove(line.IndexOf("<"), ((line.Length) - (line.IndexOf("<"))));
+
+                            bluetooth = line;
+                            Console.WriteLine(line);
+                        }
+                        if (line.IndexOf("GPS") > -1)
+                        {
+                            line = sr.ReadLine();
+
+                            line = line.Remove(0, line.IndexOf(">") + 1);
+
+                            line = line.Remove(line.IndexOf("<"), ((line.Length) - (line.IndexOf("<"))));
+
+                            GPS = line;
+                            Console.WriteLine(line);
+                        }
+
+                        if (line.IndexOf("Radio") > -1)
+                        {
+                            line = sr.ReadLine();
+
+                            line = line.Remove(0, line.IndexOf(">") + 1);
+
+                            line = line.Remove(line.IndexOf("<"), ((line.Length) - (line.IndexOf("<"))));
+
+                            radio = line;
+                            Console.WriteLine(line);
+                        }
+
+                        if (line.IndexOf("USB") > -1)
+                        {
+                            line = sr.ReadLine();
+
+                            line = line.Remove(0, line.IndexOf(">") + 1);
+
+                            line = line.Remove(line.IndexOf("<"), ((line.Length) - (line.IndexOf("<"))));
+
+                            bluetooth = line;
+                            Console.WriteLine(line);
+                        }
+
+                        if (line.IndexOf("Sensors") > -1)
+                        {
+                            line = sr.ReadLine();
+
+                            line = line.Remove(0, line.IndexOf(">") + 1);
+
+                            line = line.Remove(line.IndexOf("<"), ((line.Length) - (line.IndexOf("<"))));
+
+                            bluetooth = line;
+                            Console.WriteLine(line);
+                        }
+
+                        if (line.IndexOf("Battery") > -1)
+                        {
+                            line = sr.ReadLine();
+                            line = sr.ReadLine();
+
+                            line = line.Remove(0, line.IndexOf(">") + 1);
+
+                            line = line.Remove(line.IndexOf("<"), ((line.Length) - (line.IndexOf("<"))));
+                            Console.WriteLine(line);
+
+                            battery = line;
+                        }
+
+                        if (line.IndexOf("Colors") > -1)
+                        {
+                            line = sr.ReadLine();
+
+                            line = line.Remove(0, line.IndexOf(">") + 1);
+
+                            line = line.Remove(line.IndexOf("<"), ((line.Length) - (line.IndexOf("<"))));
+                            Console.WriteLine(line);
+
+                            colors = line;
+                        }
+
+                        if (line.IndexOf("Price group") > -1)
+                        {
+                            line = sr.ReadLine();
+
+                            line = line.Remove(0, line.IndexOf(">") + 1);
+                            line = line.Remove(0, line.IndexOf(">") + 1);
+
+                            line = line.Remove(line.IndexOf("<"), ((line.Length) - (line.IndexOf("<"))));
+                            Console.WriteLine(line);
+
+                            price_group = line;
                         }
                         //line = line.Remove(0, line.IndexOf(">") + 1);
 
