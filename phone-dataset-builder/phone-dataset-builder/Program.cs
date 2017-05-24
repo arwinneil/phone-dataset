@@ -632,6 +632,9 @@ namespace phone_dataset_builder
 
                             price_group = line;
                         }
+
+                        //Default specs parsing template
+
                         //line = line.Remove(0, line.IndexOf(">") + 1);
 
                         //line = line.Remove(0, line.IndexOf(">") + 1);
