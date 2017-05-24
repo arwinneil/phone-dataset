@@ -36,7 +36,7 @@ namespace phone_dataset_builder
                 foreach (phone_model model in Model)
                 {
                     specs Specs = getSpecs(model.url, model.model);
-                    Console.Write("\rWriting  specifications to dataset :" + ++writecount + "/" + Model.Count + "...");
+                    Console.Write("\rWriting specifications to dataset :" + ++writecount + "/" + Model.Count + "...");
                     writeSpecs(Phone.brand, model.model, Specs);
                 }
                 Console.ForegroundColor = ConsoleColor.Green;
@@ -149,7 +149,7 @@ namespace phone_dataset_builder
             {
                 Console.Write("Recursively fetching phone models from ");
                 Console.ForegroundColor = ConsoleColor.White;
-                Console.WriteLine((navigation_pages.Count + 1) + " result pages:");
+                Console.WriteLine((navigation_pages.Count + 1) + " result pages");
                 Console.ResetColor();
             }
 
@@ -257,6 +257,23 @@ namespace phone_dataset_builder
                     line = line.Remove(0, line.IndexOf("\"") + 1);
                     line = line.Substring(0, line.IndexOf("\""));
                     img_url = line;
+
+                    continue;
+                }
+
+                if ((line.IndexOf("Battery") > -1) && (line.IndexOf("th") > -1) && (line.IndexOf("nbsp") == -1) && (line.IndexOf("lab") == -1))
+                {
+                    line = sr.ReadLine();
+
+                    line = sr.ReadLine();
+
+                    line = line.Remove(0, line.IndexOf(">") + 1);
+
+                    line = line.Remove(line.IndexOf("</td>"), ((line.Length) - (line.IndexOf("<"))));
+
+                    battery = line;
+
+                    continue;
                 }
 
                 if (specs_list_found)
@@ -506,6 +523,8 @@ namespace phone_dataset_builder
                             line = line.Remove(line.IndexOf("<"), ((line.Length) - (line.IndexOf("<"))));
 
                             primary_camera = line;
+
+                            continue;
                         }
 
                         if (line.IndexOf("Secondary") > -1)
@@ -515,6 +534,8 @@ namespace phone_dataset_builder
                             line = line.Remove(line.IndexOf("<"), ((line.Length) - (line.IndexOf("<"))));
 
                             secondary_camera = line;
+
+                            continue;
                         }
                         if (line.IndexOf("Loudspeaker") > -1)
                         {
@@ -523,6 +544,8 @@ namespace phone_dataset_builder
                             line = line.Remove(line.IndexOf("<"), ((line.Length) - (line.IndexOf("<"))));
 
                             loud_speaker = line;
+
+                            continue;
                         }
 
                         if (line.IndexOf("3.5mm jack") > -1)
@@ -532,6 +555,8 @@ namespace phone_dataset_builder
                             line = line.Remove(line.IndexOf("<"), ((line.Length) - (line.IndexOf("<"))));
 
                             audio_jack = line;
+
+                            continue;
                         }
 
                         if (line.IndexOf("Loudspeaker") > -1)
@@ -541,6 +566,8 @@ namespace phone_dataset_builder
                             line = line.Remove(line.IndexOf("<"), ((line.Length) - (line.IndexOf("<"))));
 
                             loud_speaker = line;
+
+                            continue;
                         }
 
                         if (line.IndexOf("WLAN") > -1)
@@ -550,6 +577,8 @@ namespace phone_dataset_builder
                             line = line.Remove(line.IndexOf("<"), ((line.Length) - (line.IndexOf("<"))));
 
                             WLAN = line;
+
+                            continue;
                         }
 
                         if (line.IndexOf("Bluetooth") > -1)
@@ -559,6 +588,8 @@ namespace phone_dataset_builder
                             line = line.Remove(line.IndexOf("<"), ((line.Length) - (line.IndexOf("<"))));
 
                             bluetooth = line;
+
+                            continue;
                         }
                         if (line.IndexOf("GPS") > -1)
                         {
@@ -567,6 +598,8 @@ namespace phone_dataset_builder
                             line = line.Remove(line.IndexOf("<"), ((line.Length) - (line.IndexOf("<"))));
 
                             GPS = line;
+
+                            continue;
                         }
 
                         if (line.IndexOf("NFC") > -1)
@@ -576,6 +609,8 @@ namespace phone_dataset_builder
                             line = line.Remove(line.IndexOf("<"), ((line.Length) - (line.IndexOf("<"))));
 
                             NFC = line;
+
+                            continue;
                         }
 
                         if (line.IndexOf("Radio") > -1)
@@ -585,6 +620,8 @@ namespace phone_dataset_builder
                             line = line.Remove(line.IndexOf("<"), ((line.Length) - (line.IndexOf("<"))));
 
                             radio = line;
+
+                            continue;
                         }
 
                         if (line.IndexOf("USB") > -1)
@@ -594,6 +631,8 @@ namespace phone_dataset_builder
                             line = line.Remove(line.IndexOf("<"), ((line.Length) - (line.IndexOf("<"))));
 
                             USB = line;
+
+                            continue;
                         }
 
                         if (line.IndexOf("Sensors") > -1)
@@ -603,16 +642,8 @@ namespace phone_dataset_builder
                             line = line.Remove(line.IndexOf("<"), ((line.Length) - (line.IndexOf("<"))));
 
                             sensors = line;
-                        }
 
-                        if (line.IndexOf("Battery") > -1)
-                        {
-                            line = sr.ReadLine();
-                            line = sr.ReadLine();
-                            line = line.Remove(0, line.IndexOf(">") + 1);
-                            line = line.Remove(line.IndexOf("<"), ((line.Length) - (line.IndexOf("<"))));
-
-                            battery = line;
+                            continue;
                         }
 
                         if (line.IndexOf("Colors") > -1)
@@ -622,6 +653,8 @@ namespace phone_dataset_builder
                             line = line.Remove(line.IndexOf("<"), ((line.Length) - (line.IndexOf("<"))));
 
                             colors = line;
+
+                            continue;
                         }
 
                         if (line.IndexOf("Price group") > -1)
@@ -631,7 +664,10 @@ namespace phone_dataset_builder
                             line = line.Remove(0, line.IndexOf(">") + 1);
 
                             line = line.Remove(line.IndexOf("/"), ((line.Length) - (line.IndexOf("/"))));
+
                             price_group = line;
+
+                            continue;
                         }
 
                         //Default specs parsing template
