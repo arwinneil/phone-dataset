@@ -65,6 +65,7 @@
         public string battery;
         public string colors;
         public string price_group;
+        public string img_url;
 
         // Constructor:
         public specs(string network_technology,
@@ -101,7 +102,9 @@
          string sensors,
          string battery,
          string colors,
-         string price_group)
+         string price_group,
+         string img_url
+            )
         {
             this.network_technology = network_technology;
             this.twoG_bands = twoG_bands;
@@ -138,6 +141,7 @@
             this.battery = battery;
             this.colors = colors;
             this.price_group = price_group;
+            this.img_url = img_url;
         }
     }
 }
