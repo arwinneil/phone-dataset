@@ -201,9 +201,6 @@ namespace phone_dataset_builder
 
             string line = null;
             bool specs_list_found = false;
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.Write(model + ":");
-            Console.ResetColor();
 
             string network_technology = "";
             string twoG_bands = "";
