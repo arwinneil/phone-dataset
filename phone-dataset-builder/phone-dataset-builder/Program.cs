@@ -198,7 +198,6 @@ namespace phone_dataset_builder
 
             StreamWriter rawhtml = new StreamWriter("RawSpecs.html");
             rawhtml.WriteLine(client.DownloadString(url));
-
             rawhtml.Close();
 
             StreamReader sr = new StreamReader("RawSpecs.html");
@@ -379,7 +378,7 @@ namespace phone_dataset_builder
                             line = line.Remove(0, line.IndexOf(">") + 1);
                             line = line.Remove(line.IndexOf("<"), ((line.Length) - (line.IndexOf("<"))));
 
-                            display_resolution = line;
+                            weight = line;
 
                             continue;
                         }
@@ -630,7 +629,6 @@ namespace phone_dataset_builder
                             line = line.Remove(0, line.IndexOf(">") + 1);
 
                             line = line.Remove(line.IndexOf("/"), ((line.Length) - (line.IndexOf("/"))));
-                            Console.WriteLine(line);
                             price_group = line;
                         }
 
