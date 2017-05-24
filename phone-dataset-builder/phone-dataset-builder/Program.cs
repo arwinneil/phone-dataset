@@ -9,6 +9,8 @@ namespace phone_dataset_builder
     {
         private static void Main(string[] args)
         {
+            File.Create("phone_dataset.csv");
+
             Console.WriteLine("Retrieving phone brands from GSM arena... \n");
             List<phone_brand> PhoneBrands = getBrandList();
 
@@ -31,10 +33,11 @@ namespace phone_dataset_builder
                 Console.WriteLine("Fetching phone models...");
                 List<phone_model> Model = getModelList(Phone.url, false, Phone.model_no);
 
-                Console.WriteLine("Reading Specs...");
+                int writecount = 0;
                 foreach (phone_model model in Model)
                 {
                     specs Specs = getSpecs(model.url, model.model);
+                    Console.Write("\rWriting to dataset :" + ++writecount + "/" + Model.Count + "...");
                 }
             }
         }
@@ -642,7 +645,6 @@ namespace phone_dataset_builder
                     }
                 }
             }
-            Console.WriteLine();
 
             sr.Close();
             File.Delete("RawSpecs.html");
