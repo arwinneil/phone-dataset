@@ -23,23 +23,25 @@ namespace phone_dataset_builder
             foreach (phone_brand Phone in PhoneBrands)
             {
                 Console.ForegroundColor = ConsoleColor.Cyan;
-                Console.Write("\n" + Phone.brand);
+                Console.Write(Phone.brand);
                 Console.ResetColor();
                 Console.Write(" : " + Phone.model_no + " reported devices ");
                 Console.ForegroundColor = ConsoleColor.DarkGray;
                 Console.Write(" url:" + Phone.url + "\n");
                 Console.ResetColor();
 
-                Console.WriteLine("Fetching phone models...");
                 List<phone_model> Model = getModelList(Phone.url, false, Phone.model_no);
 
                 int writecount = 0;
                 foreach (phone_model model in Model)
                 {
                     specs Specs = getSpecs(model.url, model.model);
-                    Console.Write("\rWriting to dataset :" + ++writecount + "/" + Model.Count + "...");
+                    Console.Write("\rWriting  specifications to dataset :" + ++writecount + "/" + Model.Count + "...");
                     writeSpecs(Specs);
                 }
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("Done!\n");
+                Console.ResetColor();
             }
         }
 
