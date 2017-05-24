@@ -34,7 +34,7 @@ namespace phone_dataset_builder
                 Console.WriteLine("Reading Specs...");
                 foreach (phone_model model in Model)
                 {
-                    getSpecs(model.url, model.model);
+                    specs Specs = getSpecs(model.url, model.model);
                 }
             }
         }
@@ -668,6 +668,18 @@ namespace phone_dataset_builder
                             line = line.Remove(line.IndexOf("<"), ((line.Length) - (line.IndexOf("<"))));
 
                             GPS = line;
+                            Console.WriteLine(line);
+                        }
+
+                        if (line.IndexOf("NFC") > -1)
+                        {
+                            line = sr.ReadLine();
+
+                            line = line.Remove(0, line.IndexOf(">") + 1);
+
+                            line = line.Remove(line.IndexOf("<"), ((line.Length) - (line.IndexOf("<"))));
+
+                            NFC = line;
                             Console.WriteLine(line);
                         }
 
