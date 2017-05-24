@@ -32,8 +32,9 @@
     {
         public string network_technology;
         public string twoG_bands;
-        public string fourG_bands;
+
         public string threeG_bands;
+        public string fourG_bands;
         public string network_speed;
         public string GPRS;
         public string EDGE;
@@ -43,6 +44,7 @@
         public string weight;
         public string SIM;
         public string display_type;
+        public string display_size;
         public string display_resolution;
         public string OS;
         public string CPU;
@@ -70,8 +72,8 @@
         // Constructor:
         public specs(string network_technology,
          string twoG_bands,
-         string fourG_bands,
          string threeG_bands,
+         string fourG_bands,
          string network_speed,
          string GPRS,
          string EDGE,
@@ -81,6 +83,7 @@
          string weight,
          string SIM,
          string display_type,
+         string display_size,
          string display_resolution,
          string OS,
          string CPU,
@@ -119,6 +122,7 @@
             this.weight = weight;
             this.SIM = SIM;
             this.display_type = display_type;
+            this.display_size = display_size;
             this.display_resolution = display_resolution;
             this.OS = OS;
             this.CPU = CPU;

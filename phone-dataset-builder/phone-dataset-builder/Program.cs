@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
+using System.Net;
 
 namespace phone_dataset_builder
 {
@@ -191,7 +188,7 @@ namespace phone_dataset_builder
             return PhoneModels;
         }
 
-        private static void getSpecs(string url, string model)
+        private static specs getSpecs(string url, string model)
         {
             WebClient client = new WebClient();
 
@@ -208,6 +205,43 @@ namespace phone_dataset_builder
             Console.Write(model + ":");
             Console.ResetColor();
 
+            string network_technology = "";
+            string twoG_bands = "";
+            string fourG_bands = "";
+            string threeG_bands = "";
+            string network_speed = "";
+            string GPRS = "";
+            string EDGE = "";
+            string announced = "";
+            string status = "";
+            string dimentions = "";
+            string weight = "";
+            string SIM = "";
+            string display_type = "";
+            string display_resolution = "";
+            string display_size = "";
+            string OS = "";
+            string CPU = "";
+            string Chipset = "";
+            string GPU = "";
+            string memory_card = "";
+            string internal_memory = "";
+            string RAM = "";
+            string primary_camera = "";
+            string secondary_camera = "";
+            string loud_speaker = "";
+            string audio_jack = "";
+            string WLAN = "";
+            string bluetooth = "";
+            string GPS = "";
+            string NFC = "";
+            string radio = "";
+            string USB = "";
+            string sensors = "";
+            string battery = "";
+            string colors = "";
+            string price_group = "";
+            string img_url = "";
             while ((line = sr.ReadLine()) != null)
             {
                 if (line.IndexOf("<div id=\"specs-list\">") == 0)
@@ -216,17 +250,219 @@ namespace phone_dataset_builder
                 if (line.IndexOf("<p class=\"note\">") == 0)
                     break;
 
+                if (line.IndexOf("HISTORY_ITEM_IMAGE") == 0)
+                {
+                    line = line.Remove(0, line.IndexOf("\"") + 1);
+                    line = line.Substring(0, line.IndexOf("\""));
+                    img_url = line;
+                }
+
                 if (specs_list_found)
                 {
                     if ((line.IndexOf("ttl") > -1) && (line.IndexOf("nbsp") == -1))
                     {
-                        line = line.Remove(0, line.IndexOf(">") + 1);
+                        if (line.IndexOf("Technology") > -1)
+                        {
+                            line = sr.ReadLine();
 
-                        line = line.Remove(0, line.IndexOf(">") + 1);
+                            line = line.Remove(0, line.IndexOf(">") + 1);
 
-                        line = line.Remove(line.IndexOf("<"), ((line.Length) - (line.IndexOf("<"))));
+                            line = line.Remove(0, line.IndexOf(">") + 1);
 
-                        Console.Write(line + ",");
+                            line = line.Remove(line.IndexOf("<"), ((line.Length) - (line.IndexOf("<"))));
+
+                            network_technology = line;
+                            Console.WriteLine(line);
+
+                            continue;
+                        }
+
+                        if (line.IndexOf("2G bands") > -1)
+                        {
+                            line = sr.ReadLine();
+
+                            line = line.Remove(0, line.IndexOf(">") + 1);
+
+                            line = line.Remove(line.IndexOf("<"), ((line.Length) - (line.IndexOf("<"))));
+
+                            twoG_bands = line;
+
+                            Console.WriteLine(line);
+
+                            continue;
+                        }
+
+                        if (line.IndexOf("3G bands") > -1)
+                        {
+                            line = sr.ReadLine();
+
+                            line = line.Remove(0, line.IndexOf(">") + 1);
+
+                            line = line.Remove(line.IndexOf("<"), ((line.Length) - (line.IndexOf("<"))));
+
+                            threeG_bands = line;
+
+                            Console.WriteLine(line);
+
+                            continue;
+                        }
+
+                        if (line.IndexOf("4G bands") > -1)
+                        {
+                            line = sr.ReadLine();
+
+                            line = line.Remove(0, line.IndexOf(">") + 1);
+
+                            line = line.Remove(line.IndexOf("<"), ((line.Length) - (line.IndexOf("<"))));
+
+                            fourG_bands = line;
+
+                            Console.WriteLine(line);
+
+                            continue;
+                        }
+
+                        if (line.IndexOf("Speed") > -1)
+                        {
+                            line = sr.ReadLine();
+
+                            line = line.Remove(0, line.IndexOf(">") + 1);
+
+                            line = line.Remove(line.IndexOf("<"), ((line.Length) - (line.IndexOf("<"))));
+
+                            network_speed = line;
+
+                            Console.WriteLine(line);
+
+                            continue;
+                        }
+
+                        if (line.IndexOf("GPRS") > -1)
+                        {
+                            line = sr.ReadLine();
+
+                            line = line.Remove(0, line.IndexOf(">") + 1);
+
+                            line = line.Remove(line.IndexOf("<"), ((line.Length) - (line.IndexOf("<"))));
+
+                            GPRS = line;
+
+                            Console.WriteLine(line);
+
+                            continue;
+                        }
+
+                        if (line.IndexOf("EDGE") > -1)
+                        {
+                            line = sr.ReadLine();
+
+                            line = line.Remove(0, line.IndexOf(">") + 1);
+
+                            line = line.Remove(line.IndexOf("<"), ((line.Length) - (line.IndexOf("<"))));
+
+                            EDGE = line;
+
+                            Console.WriteLine(line);
+
+                            continue;
+                        }
+
+                        if (line.IndexOf("Announced") > -1)
+                        {
+                            line = sr.ReadLine();
+
+                            line = line.Remove(0, line.IndexOf(">") + 1);
+
+                            line = line.Remove(line.IndexOf("<"), ((line.Length) - (line.IndexOf("<"))));
+
+                            announced = line;
+
+                            Console.WriteLine(line);
+
+                            continue;
+                        }
+
+                        if (line.IndexOf("Status") > -1)
+                        {
+                            line = sr.ReadLine();
+
+                            line = line.Remove(0, line.IndexOf(">") + 1);
+
+                            line = line.Remove(line.IndexOf("<"), ((line.Length) - (line.IndexOf("<"))));
+
+                            status = line;
+
+                            Console.WriteLine(line);
+
+                            continue;
+                        }
+
+                        if (line.IndexOf("Dimensions") > -1)
+                        {
+                            line = sr.ReadLine();
+
+                            line = line.Remove(0, line.IndexOf(">") + 1);
+
+                            line = line.Remove(line.IndexOf("<"), ((line.Length) - (line.IndexOf("<"))));
+
+                            dimentions = line;
+
+                            Console.WriteLine(line);
+
+                            continue;
+                        }
+
+                        if (line.IndexOf("SIM") > -1)
+                        {
+                            line = sr.ReadLine();
+
+                            line = line.Remove(0, line.IndexOf(">") + 1);
+
+                            line = line.Remove(line.IndexOf("<"), ((line.Length) - (line.IndexOf("<"))));
+
+                            SIM = line;
+
+                            Console.WriteLine(line);
+
+                            continue;
+                        }
+
+                        if (line.IndexOf("Type") > -1)
+                        {
+                            line = sr.ReadLine();
+
+                            line = line.Remove(0, line.IndexOf(">") + 1);
+
+                            line = line.Remove(line.IndexOf("<"), ((line.Length) - (line.IndexOf("<"))));
+
+                            display_type = line;
+
+                            Console.WriteLine(line);
+
+                            continue;
+                        }
+
+                        if (line.IndexOf("Size") > -1)
+                        {
+                            line = sr.ReadLine();
+
+                            line = line.Remove(0, line.IndexOf(">") + 1);
+
+                            line = line.Remove(line.IndexOf("<"), ((line.Length) - (line.IndexOf("<"))));
+
+                            display_size = line;
+
+                            Console.WriteLine(line);
+
+                            continue;
+                        }
+                        //line = line.Remove(0, line.IndexOf(">") + 1);
+
+                        //line = line.Remove(0, line.IndexOf(">") + 1);
+
+                        //line = line.Remove(line.IndexOf("<"), ((line.Length) - (line.IndexOf("<"))));
+
+                        //Console.Write(line + ",");
                     }
                 }
             }
@@ -234,6 +470,47 @@ namespace phone_dataset_builder
 
             sr.Close();
             File.Delete("RawSpecs.html");
+
+            specs Specs = new specs(network_technology,
+             twoG_bands,
+             threeG_bands,
+             fourG_bands,
+             network_speed,
+             GPRS,
+             EDGE,
+             announced,
+             status,
+             dimentions,
+             weight,
+             SIM,
+             display_type,
+             display_resolution,
+             display_size,
+             OS,
+             CPU,
+             Chipset,
+             GPU,
+             memory_card,
+             internal_memory,
+             RAM,
+             primary_camera,
+             secondary_camera,
+             loud_speaker,
+             audio_jack,
+             WLAN,
+             bluetooth,
+             GPS,
+             NFC,
+             radio,
+             USB,
+             sensors,
+             battery,
+             colors,
+             price_group,
+             img_url
+                );
+
+            return Specs;
         }
     }
 }
