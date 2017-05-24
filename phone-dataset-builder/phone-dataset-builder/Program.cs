@@ -591,7 +591,7 @@ namespace phone_dataset_builder
                             line = line.Remove(0, line.IndexOf(">") + 1);
                             line = line.Remove(line.IndexOf("<"), ((line.Length) - (line.IndexOf("<"))));
 
-                            bluetooth = line;
+                            USB = line;
                         }
 
                         if (line.IndexOf("Sensors") > -1)
@@ -600,7 +600,7 @@ namespace phone_dataset_builder
                             line = line.Remove(0, line.IndexOf(">") + 1);
                             line = line.Remove(line.IndexOf("<"), ((line.Length) - (line.IndexOf("<"))));
 
-                            bluetooth = line;
+                            sensors = line;
                         }
 
                         if (line.IndexOf("Battery") > -1)
@@ -689,6 +689,49 @@ namespace phone_dataset_builder
                 );
 
             return Specs;
+        }
+
+        private static void writeSpecs(specs Specs)
+        {
+            StreamWriter dataset = new StreamWriter("phone_dataset.csv");
+
+            Specs.network_technology = Specs.network_technology.Replace(',', '|');
+            Specs.twoG_bands = Specs.twoG_bands.Replace(',', '|');
+            Specs.fourG_bands = Specs.fourG_bands.Replace(',', '|');
+            Specs.threeG_bands = Specs.threeG_bands.Replace(',', '|');
+            Specs.network_speed = Specs.network_speed.Replace(',', ' ');
+            Specs.GPRS = Specs.GPRS.Replace(',', '|');
+            Specs.EDGE = Specs.EDGE.Replace(',', '|');
+            Specs.announced = Specs.announced.Replace(',', ' ');
+            Specs.status = Specs.status.Replace(',', ' ');
+            Specs.dimentions = Specs.dimentions.Replace(',', '|');
+            Specs.weight = Specs.weight.Replace(',', '|');
+            Specs.SIM = Specs.SIM.Replace(',', '|');
+            Specs.display_type = Specs.display_type.Replace(',', ' ');
+            Specs.display_size = Specs.display_size.Replace(',', '|');
+            Specs.display_resolution = Specs.display_resolution.Replace(',', '|');
+            Specs.OS = Specs.OS.Replace(',', '|');
+            Specs.CPU = Specs.CPU.Replace(',', '|');
+            Specs.Chipset = Specs.Chipset.Replace(',', '|');
+            Specs.GPU = Specs.GPU.Replace(',', '|');
+            Specs.memory_card = Specs.memory_card.Replace(',', '|');
+            Specs.internal_memory = Specs.internal_memory.Replace(',', '|');
+            Specs.RAM = Specs.RAM.Replace(',', '|');
+            Specs.primary_camera = Specs.primary_camera.Replace(',', '|');
+            Specs.secondary_camera = Specs.secondary_camera.Replace(',', '|');
+            Specs.loud_speaker = Specs.loud_speaker.Replace(',', '|');
+            Specs.audio_jack = Specs.audio_jack.Replace(',', '|');
+            Specs.WLAN = Specs.WLAN.Replace(',', '|');
+            Specs.bluetooth = Specs.bluetooth.Replace(',', '|');
+            Specs.GPS = Specs.GPS.Replace(',', '|');
+            Specs.NFC = Specs.NFC.Replace(',', '|');
+            Specs.radio = Specs.radio.Replace(',', '|');
+            Specs.USB = Specs.USB.Replace(',', '|');
+            Specs.sensors = Specs.sensors.Replace(',', '|');
+            Specs.battery = Specs.battery.Replace(',', '|');
+            Specs.colors = Specs.colors.Replace(',', '|');
+            Specs.price_group = Specs.price_group.Replace(',', '|');
+            Specs.img_url = Specs.img_url.Replace(',', '|');
         }
     }
 }
