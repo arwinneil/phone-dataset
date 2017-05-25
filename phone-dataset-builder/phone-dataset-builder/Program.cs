@@ -198,9 +198,21 @@ namespace phone_dataset_builder
         {
             WebClient client = new WebClient();
 
-            StreamWriter rawhtml = new StreamWriter("RawSpecs.html");
-            rawhtml.WriteLine(client.DownloadString(url));
-            rawhtml.Close();
+            bool tryagain = true;
+            while (tryagain)
+            {
+                try
+                {
+                    StreamWriter rawhtml = new StreamWriter("RawSpecs.html");
+                    rawhtml.WriteLine(client.DownloadString(url));
+                    rawhtml.Close();
+                    tryagain = false;
+                }
+                catch
+                {
+                    tryagain = true;
+                }
+            }
 
             StreamReader sr = new StreamReader("RawSpecs.html");
 
@@ -511,9 +523,25 @@ namespace phone_dataset_builder
                             line = line.Remove(0, line.IndexOf(">") + 1);
                             line = line.Remove(line.IndexOf("<"), ((line.Length) - (line.IndexOf("<"))));
 
-                            RAM = line;
+                            if (line.IndexOf(",") > -1)
+                            {
+                                if ((line.Substring(0, line.IndexOf(",")).IndexOf("RAM") > -1))
+                                {
+                                    RAM = line.Substring(0, line.IndexOf(","));
+                                    internal_memory = line.Remove(0, line.IndexOf(",") + 2);
+                                }
+                                else
+                                {
+                                    internal_memory = line.Substring(0, line.IndexOf(","));
+                                    RAM = line.Remove(0, line.IndexOf(",") + 2);
+                                }
 
-                            continue;
+                                continue;
+                            }
+                            else
+                            {
+                                internal_memory = line;
+                            }
                         }
 
                         if (line.IndexOf("Primary") > -1)
@@ -792,7 +820,7 @@ namespace phone_dataset_builder
             Specs.CPU = Specs.CPU.Replace(',', '|');
             Specs.Chipset = Specs.Chipset.Replace(',', '|');
             Specs.GPU = Specs.GPU.Replace(',', '|');
-            Specs.memory_card = Specs.memory_card.Replace(',', '|');
+            Specs.memory_card = Specs.memory_card.Replace(',', ' ');
             Specs.internal_memory = Specs.internal_memory.Replace(',', '|');
             Specs.RAM = Specs.RAM.Replace(',', '|');
             Specs.primary_camera = Specs.primary_camera.Replace(',', '|');
