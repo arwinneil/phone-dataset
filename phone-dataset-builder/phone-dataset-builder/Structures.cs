@@ -32,7 +32,6 @@
     {
         public string network_technology;
         public string twoG_bands;
-
         public string threeG_bands;
         public string fourG_bands;
         public string network_speed;
@@ -41,7 +40,8 @@
         public string announced;
         public string status;
         public string dimentions;
-        public string weight;
+        public string weight_g;
+        public string weight_oz;
         public string SIM;
         public string display_type;
         public string display_size;
@@ -80,7 +80,8 @@
          string announced,
          string status,
          string dimentions,
-         string weight,
+         string weight_g,
+         string weight_oz,
          string SIM,
          string display_type,
          string display_size,
@@ -119,7 +120,8 @@
             this.announced = announced;
             this.status = status;
             this.dimentions = dimentions;
-            this.weight = weight;
+            this.weight_g = weight_g;
+            this.weight_oz = weight_oz;
             this.SIM = SIM;
             this.display_type = display_type;
             this.display_size = display_size;
