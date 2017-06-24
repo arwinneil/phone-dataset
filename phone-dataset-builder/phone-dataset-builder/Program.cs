@@ -19,41 +19,44 @@ namespace phone_dataset_builder
             Console.WriteLine("\n\nRetrived " + PhoneBrands.Count + " phone brands\n");
             Console.ResetColor();
             Console.WriteLine("Retrieving phone models by brand... \n");
+            Console.Write("Input starting point :");
+
+            string st = Console.ReadLine();
 
             bool canstart = false;
 
             foreach (phone_brand Phone in PhoneBrands)
             {
-                //selective brand start
+                // selective brand start
 
-                //if (Phone.brand == "Sony")
-                //{
-                //    canstart = true;
-                //}
-
-                //if (canstart)
-                //{
-                Console.ForegroundColor = ConsoleColor.Cyan;
-                Console.Write(Phone.brand);
-                Console.ResetColor();
-                Console.Write(" : " + Phone.model_no + " reported devices ");
-                Console.ForegroundColor = ConsoleColor.DarkGray;
-                Console.Write(" url:" + Phone.url + "\n");
-                Console.ResetColor();
-
-                List<phone_model> Model = getModelList(Phone.url, false, Phone.model_no);
-
-                int writecount = 0;
-                foreach (phone_model model in Model)
+                if (Phone.brand == st)
                 {
-                    specs Specs = getSpecs(model.url, model.model);
-                    Console.Write("\rWriting specifications to dataset :" + ++writecount + "/" + Model.Count + "...");
-                    writeSpecs(Phone.brand, model.model, Specs);
+                    canstart = true;
                 }
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("Done!\n");
-                Console.ResetColor();
-                //}
+
+                if (canstart)
+                {
+                    Console.ForegroundColor = ConsoleColor.Cyan;
+                    Console.Write(Phone.brand);
+                    Console.ResetColor();
+                    Console.Write(" : " + Phone.model_no + " reported devices ");
+                    Console.ForegroundColor = ConsoleColor.DarkGray;
+                    Console.Write(" url:" + Phone.url + "\n");
+                    Console.ResetColor();
+
+                    List<phone_model> Model = getModelList(Phone.url, false, Phone.model_no);
+
+                    int writecount = 0;
+                    foreach (phone_model model in Model)
+                    {
+                        specs Specs = getSpecs(model.url, model.model);
+                        Console.Write("\rWriting specifications to dataset :" + ++writecount + "/" + Model.Count + "...");
+                        writeSpecs(Phone.brand, model.model, Specs);
+                    }
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("Done!\n");
+                    Console.ResetColor();
+                }
             }
         }
 
@@ -558,9 +561,66 @@ namespace phone_dataset_builder
 
                                 continue;
                             }
+                            else if (line.IndexOf(";") > -1)
+                            {
+                                if ((line.Substring(0, line.IndexOf(";")).IndexOf("RAM") > -1))
+                                {
+                                    RAM = line.Substring(0, line.IndexOf(";"));
+                                    internal_memory = line.Remove(0, line.IndexOf(";") + 2);
+                                }
+                                else
+                                {
+                                    internal_memory = line.Substring(0, line.IndexOf(";"));
+                                    RAM = line.Remove(0, line.IndexOf(";") + 2);
+                                }
+
+                                continue;
+                            }
+                            else if (line.IndexOf("+") > -1)
+                            {
+                                if ((line.Substring(0, line.IndexOf("+")).IndexOf("RAM") > -1))
+                                {
+                                    RAM = line.Substring(0, line.IndexOf("+"));
+                                    internal_memory = line.Remove(0, line.IndexOf("+") + 2);
+                                }
+                                else
+                                {
+                                    internal_memory = line.Substring(0, line.IndexOf("+"));
+                                    RAM = line.Remove(0, line.IndexOf("+") + 2);
+                                }
+
+                                continue;
+                            }
+                            else if (line.IndexOf("|") > -1)
+                            {
+                                if ((line.Substring(0, line.IndexOf("|")).IndexOf("RAM") > -1))
+
+                                {
+                                    Console.WriteLine(line);
+
+                                    RAM = line.Substring(0, line.IndexOf("|"));
+                                    Console.WriteLine(RAM);
+
+                                    internal_memory = line.Remove(0, line.IndexOf("|") + 2);
+                                    Console.WriteLine(internal_memory);
+                                }
+                                else
+                                {
+                                    internal_memory = line.Substring(0, line.IndexOf("|"));
+                                    Console.WriteLine(internal_memory);
+
+                                    RAM = line.Remove(0, line.IndexOf("|") + 2);
+                                    Console.WriteLine(RAM);
+                                }
+
+                                continue;
+                            }
                             else
                             {
-                                internal_memory = line;
+                                if (line.IndexOf("RAM") > -1)
+                                    RAM = line;
+                                else
+                                    internal_memory = line;
                             }
                         }
 
@@ -709,13 +769,17 @@ namespace phone_dataset_builder
                             continue;
                         }
 
-                        if (line.IndexOf("Price group") > -1)
+                        if (line.IndexOf("Price") > -1)
                         {
                             line = sr.ReadLine();
-                            line = line.Remove(0, line.IndexOf(">") + 1);
+
                             line = line.Remove(0, line.IndexOf(">") + 1);
 
-                            line = line.Remove(line.IndexOf("/"), ((line.Length) - (line.IndexOf("/"))));
+                            line = line.Remove(line.IndexOf("<"), ((line.Length) - (line.IndexOf("<"))));
+
+                            line = line.Remove(0, 6);
+
+                            line = line.Remove(line.IndexOf(" "));
 
                             price_group = line;
 
@@ -789,7 +853,7 @@ namespace phone_dataset_builder
                 try
                 {
                     StreamWriter dataset = new StreamWriter("phone_dataset.csv");
-                    dataset.WriteLine("brand,model,network_technology,2G_bands,3G_bands,4G_bands,network_speed,GPRS,EDGE,announced,status,dimentions,weight_g,weight_oz,SIM,display_type,display_resolution,display_size,OS,CPU,Chipset,GPU,memory_card,internal_memory,RAM,primary_camera,secondary_camera,loud_speaker,audio_jack,WLAN,bluetooth,GPS,NFC,radio,USB,sensors,battery,colors,price_group,img_url");
+                    dataset.WriteLine("brand,model,network_technology,2G_bands,3G_bands,4G_bands,network_speed,GPRS,EDGE,announced,status,dimentions,weight_g,weight_oz,SIM,display_type,display_resolution,display_size,OS,CPU,Chipset,GPU,memory_card,internal_memory,RAM,primary_camera,secondary_camera,loud_speaker,audio_jack,WLAN,bluetooth,GPS,NFC,radio,USB,sensors,battery,colors,approx_price_EUR,img_url");
 
                     dataset.Close();
                     tryagain = false;
